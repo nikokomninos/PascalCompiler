@@ -10,7 +10,7 @@ project. This compiler lexes, parses, and compiles a subset of Pascal.
 - A C++ compiler that supports C++20 (such as `g++` or `clang++`)
 - GNU Make or a compatible `make` command
 
-# Build Steps
+### Build Steps
 
 1. From the repository root, build the compiler with:
 
