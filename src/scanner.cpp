@@ -18,7 +18,7 @@ void Scanner::get_tokens() {
     }
 
     // Explicitly checks if the lexeme is a one-character operator, since
-    // operators are special and clearly act as a split between lexemes.
+    // operators are special and act as a clear split between lexemes.
     // If the lexeme is an operator, it pushes the current lexeme to the stream,
     // then pushes the operator lexeme to the stream.
     if (std::find(operators.begin(), operators.end(), c) != operators.end()) {
