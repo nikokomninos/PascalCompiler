@@ -18,6 +18,6 @@ inline constexpr std::array<std::string, 4> token_type_names {
 };
 
 struct Token {
-  std::string lexeme;
-  TokenType type;
+  const std::string lexeme;
+  const TokenType type;
 };

@@ -16,7 +16,8 @@ public:
 
   /**
    * @brief Scans through the given source stored in m_src and tokenizes it.
-   * Achieved by going through each character in the stream, and determining
+   *
+   * @details Achieved by going through each character in the stream, and determining
    * where a lexeme begins and ends, as well as its TokenType based on a given
    * set of rules:
    *
