@@ -69,6 +69,7 @@ Testing/
 .cache/
 
 # custom
+.DS_Store
 pascalc.dSYM/
 compile_flags.txt
 .vscode/

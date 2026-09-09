@@ -25,5 +25,5 @@ This creates the `pascalc` executable in the repository root.
 Pass a source file as the program's only argument:
 
 ```sh
-./pascalc example.txt
+./pascalc input.txt
 ```
