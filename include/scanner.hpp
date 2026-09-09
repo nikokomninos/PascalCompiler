@@ -21,11 +21,13 @@ public:
    * where a lexeme begins and ends, as well as its TokenType based on a given
    * set of rules:
    *
-   * - TOK_OP if it is one character and is found within the
-   *   operators set.
-   * - TOK_WORD if the lexeme begins with a letter.
-   * - TOK_NUMBER if the lexeme begins with a digit.
-   * - TOK_UNKNOWN if the lexeme is of an unknown token type (currently).
+   * - TOK_<SPECIAL>, where special is one of the special tokens found in
+   *   the map special_tokens. This includes single and multi-character operators
+   * - TOK_IDENTIFIER if the lexeme contains alphanumeric characters
+   * - TOK_NUMBER if the lexeme contains only digits, and optionally a
+   *   decimal point
+   * - TOK_WORD if the lexeme does not match any other token type, or if the
+   *   lexeme is "CONST"
    *
    * The tokenized stream is stored in member variable m_tokens.
    */
@@ -53,13 +55,6 @@ private:
    * @see check_token_type()
    */
   void push_lexeme(std::string &lexeme);
-
-  /**
-   * @brief A helper function that pushes an operator to the token stream.
-   *
-   * @param op the operator lexeme
-   */
-  void push_operator(char op);
 
   /**
    * @brief A helper function that determines the token type of a lexeme
