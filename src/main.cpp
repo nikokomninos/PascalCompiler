@@ -1,4 +1,5 @@
 #include "scanner.hpp"
+#include "symbol_table.hpp"
 #include <fstream>
 #include <iostream>
 
@@ -27,7 +28,8 @@ int main(int argc, char *argv[]) {
 
   file.close();
 
-  Scanner scanner = Scanner(src);
+  SymbolTable symbol_table;
+  Scanner scanner(src, symbol_table);
   scanner.get_tokens();
   scanner.print_token_stream();
 
