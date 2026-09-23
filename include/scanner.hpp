@@ -22,14 +22,12 @@ public:
    * determining where a lexeme begins and ends, as well as its TokenType based
    * on a given set of rules:
    *
-   * - TOK_<SPECIAL>, where special is one of the special tokens found in
-   *   the map special_tokens. This includes single and multi-character
-   * operators
+   * - TOK_<PREDEFINED>, where PREDEFINED is one of the predefined tokens found
+   * in the symbol table.
    * - TOK_IDENTIFIER if the lexeme contains alphanumeric characters
    * - TOK_NUMBER if the lexeme contains only digits, and optionally a
-   *   decimal point
-   * - TOK_WORD if the lexeme does not match any other token type, or if the
-   *   lexeme is "CONST"
+   *   decimal point.
+   * - TOK_WORD if the lexeme does not match any other token type.
    *
    * The tokenized stream is stored in member variable m_tokens.
    */
@@ -40,12 +38,12 @@ public:
    *
    * LEXEME : TOKENTYPE
    */
-  void print_token_stream();
+  void print_token_stream() const;
 
 private:
   std::string m_src;           // The original source stream
   std::vector<Token> m_tokens; // The scanned, tokenized stream
-  SymbolTable m_symbol_table;
+  const SymbolTable &m_symbol_table; // Shared symbol table
 
   /**
    * @brief A helper function that pushes the current lexeme to the
@@ -54,7 +52,6 @@ private:
    *
    * @param &lexeme a reference to the current lexeme string
    *
-   * @note Pre-condition: the lexeme is not an operator
    * @see check_token_type()
    */
   void push_lexeme(std::string &lexeme);
@@ -63,6 +60,8 @@ private:
    * @brief A helper function that determines the token type of a lexeme
    *
    * @param &lexeme a reference to the current lexeme string
+   *
+   * @return The TokenType associated with the lexeme
    */
-  TokenType check_token_type(const std::string &lexeme);
+  TokenType get_token_type(const std::string &lexeme) const;
 };

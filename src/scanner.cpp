@@ -25,10 +25,8 @@ inline constexpr std::array<std::string, 37> token_type_names{
 };
 } // namespace
 
-Scanner::Scanner(const std::string &src, const SymbolTable &symbol_table) {
-  m_src = std::move(src);
-  m_symbol_table = std::move(symbol_table);
-}
+Scanner::Scanner(const std::string &src, const SymbolTable &symbol_table)
+    : m_src{src}, m_symbol_table{symbol_table} {}
 
 void Scanner::get_tokens() {
   std::string lexeme{};
@@ -75,7 +73,7 @@ void Scanner::get_tokens() {
       symbol.push_back(next);
       ++i;
     }
-    m_tokens.emplace_back(symbol, check_token_type(symbol));
+    m_tokens.emplace_back(symbol, get_token_type(symbol));
   }
 
   push_lexeme(lexeme);
@@ -83,31 +81,24 @@ void Scanner::get_tokens() {
 
 void Scanner::push_lexeme(std::string &lexeme) {
   if (!lexeme.empty()) {
-    m_tokens.emplace_back(lexeme, check_token_type(lexeme));
+    m_tokens.emplace_back(lexeme, get_token_type(lexeme));
     lexeme.clear();
   }
 }
 
-void Scanner::print_token_stream() {
+void Scanner::print_token_stream() const {
   for (const Token &t : m_tokens) {
     std::cout << std::left << std::setw(15) << t.lexeme << " : "
               << token_type_names.at(static_cast<size_t>(t.type)) << "\n";
   }
 }
 
-TokenType Scanner::check_token_type(const std::string &lexeme) {
-  std::string upper_lexeme{lexeme};
-  std::transform(upper_lexeme.begin(), upper_lexeme.end(), upper_lexeme.begin(),
-                 [](unsigned char c) { return std::toupper(c); });
-
-  const auto predefined_symbol{
-      std::find_if(predefined_symbols.begin(), predefined_symbols.end(),
-                   [&upper_lexeme](const PredefinedSymbol &symbol) {
-                     return symbol.lexeme == upper_lexeme;
-                   })};
-
-  if (predefined_symbol != predefined_symbols.end())
-    return predefined_symbol->token_type;
+TokenType Scanner::get_token_type(const std::string &lexeme) const {
+  // Checks the symbol table explicitly for pre-defined tokens
+  if (const auto predefined_token{
+          m_symbol_table.lookup_predefined_token(lexeme)}) {
+    return *predefined_token;
+  }
 
   if (!lexeme.empty() &&
       std::all_of(lexeme.begin(), lexeme.end(),
