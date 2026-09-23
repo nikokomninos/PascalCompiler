@@ -1,23 +1,65 @@
 #pragma once
 
-#include <array>
 #include <string>
 
-// Set of predefined operator lexemes
-inline constexpr std::array<char, 5> operators{'(', ')', ',', ';', '='};
+enum class TokenType {
+  // Keywords
+  TOK_PROGRAM,
+  TOK_PROCEDURE,
+  TOK_VAR,
+  TOK_BEGIN,
+  TOK_END,
+  TOK_IF,
+  TOK_THEN,
+  TOK_ELSE,
+  TOK_WHILE,
+  TOK_DO,
 
-enum class TokenType { TOK_WORD, TOK_NUMBER, TOK_OP, TOK_UNKNOWN };
+  // Data Types
+  TOK_INTEGER,
+  TOK_REAL,
 
-// Lookup table for printing token type names (since enum names cannot
-// be printed)
-inline constexpr std::array<std::string, 4> token_type_names {
-  "TOK_WORD",
-  "TOK_NUMBER",
-  "TOK_OP",
-  "TOK_UNKNOWN"
+  // Rel ops
+  TOK_EQUAL,         // =
+  TOK_GREATER,       // >
+  TOK_LESS,          // <
+  TOK_GREATER_EQUAL, // >=
+  TOK_LESS_EQUAL,    // <=
+  TOK_NOT_EQUAL,     // <>
+  TOK_NOT,
+
+  // Add ops
+  TOK_PLUS, // +
+  TOK_MINUS, // -
+  TOK_OR,
+
+  // Mul ops
+  TOK_MULTIPLY, // *
+  TOK_DIVIDE, // /
+  TOK_DIV,
+  TOK_MOD,
+  TOK_AND,
+
+  // Assign ops
+  TOK_ASSIGN, // :=
+
+  // Symbol types
+  TOK_IDENTIFIER,
+  TOK_NUMBER,
+
+  // Separating operators
+  TOK_LEFT_PAREN, // (
+  TOK_RIGHT_PAREN, // )
+  TOK_COMMA, // ,
+  TOK_SEMICOLON, // ;
+  TOK_COLON, // :
+  TOK_PERIOD, // .
+
+  // Extra token types
+  TOK_WORD,
 };
 
 struct Token {
-  const std::string lexeme;
-  const TokenType type;
+  std::string lexeme;
+  TokenType type;
 };

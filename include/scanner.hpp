@@ -1,5 +1,6 @@
 #pragma once
 
+#include "symbol_table.hpp"
 #include "token.hpp"
 #include <vector>
 
@@ -12,20 +13,21 @@ public:
    * @param &src A string containing the source code passed into the executable
    * as an argument. It is moved into member variable m_src
    */
-  Scanner(const std::string &src);
+  Scanner(const std::string &src, const SymbolTable &symbol_table);
 
   /**
    * @brief Scans through the given source stored in m_src and tokenizes it.
    *
-   * @details Achieved by going through each character in the stream, and determining
-   * where a lexeme begins and ends, as well as its TokenType based on a given
-   * set of rules:
+   * @details Achieved by going through each character in the stream, and
+   * determining where a lexeme begins and ends, as well as its TokenType based
+   * on a given set of rules:
    *
-   * - TOK_OP if it is one character and is found within the
-   *   operators set.
-   * - TOK_WORD if the lexeme begins with a letter.
-   * - TOK_NUMBER if the lexeme begins with a digit.
-   * - TOK_UNKNOWN if the lexeme is of an unknown token type (currently).
+   * - TOK_<PREDEFINED>, where PREDEFINED is one of the predefined tokens found
+   * in the symbol table.
+   * - TOK_IDENTIFIER if the lexeme contains alphanumeric characters
+   * - TOK_NUMBER if the lexeme contains only digits, and optionally a
+   *   decimal point.
+   * - TOK_WORD if the lexeme does not match any other token type.
    *
    * The tokenized stream is stored in member variable m_tokens.
    */
@@ -36,35 +38,30 @@ public:
    *
    * LEXEME : TOKENTYPE
    */
-  void print_token_stream();
+  void print_token_stream() const;
 
 private:
-  std::string m_src; // The original source stream
+  std::string m_src;           // The original source stream
   std::vector<Token> m_tokens; // The scanned, tokenized stream
+  const SymbolTable &m_symbol_table; // Shared symbol table
 
   /**
-   * @brief A helper function that pushes the current lexeme to the 
+   * @brief A helper function that pushes the current lexeme to the
    * token stream, if the lexeme string is not empty. Calls helper function
    * check_token_type to determine the TokenType of the lexeme
    *
    * @param &lexeme a reference to the current lexeme string
    *
-   * @note Pre-condition: the lexeme is not an operator
    * @see check_token_type()
    */
   void push_lexeme(std::string &lexeme);
 
   /**
-   * @brief A helper function that pushes an operator to the token stream.
-   *
-   * @param op the operator lexeme
-   */
-  void push_operator(char op);
-
-  /**
    * @brief A helper function that determines the token type of a lexeme
    *
    * @param &lexeme a reference to the current lexeme string
+   *
+   * @return The TokenType associated with the lexeme
    */
-  TokenType check_token_type(const std::string &lexeme);
+  TokenType get_token_type(const std::string &lexeme) const;
 };
