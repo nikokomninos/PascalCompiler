@@ -27,3 +27,5 @@ Pass a source file as the program's only argument:
 ```sh
 ./pascalc input.txt
 ```
+
+Alternatively, use `make run` to automatically run `./pascalc input.txt`
