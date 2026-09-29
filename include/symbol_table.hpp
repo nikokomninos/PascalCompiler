@@ -163,7 +163,7 @@ public:
 private:
   std::unordered_map<std::string, NameEntry> m_name_table;
   std::vector<AttributeEntry> m_attribute_table;
-  std::vector<Scope> m_scope_stack;
+  std::vector<Scope> m_scope_stack; // Acts as the auxiliary table
 
   /**
    * @brief Normalizes a name (string) to be all uppercase
